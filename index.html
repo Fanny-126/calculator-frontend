@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="calculator-container">
+
+        <section class="calculator">
+            <h1>Calculator</h1>
+
+            <input
+                id="expression"
+                type="text"
+                placeholder="Enter an expression"
+                autocomplete="off"
+            >
+
+            <button id="calculate-button">Calculate</button>
+
+            <div id="result" class="result"></div>
+
+            <div id="error" class="error"></div>
+        </section>
+
+        <section class="history">
+            <div class="history-header">
+                <h2>History</h2>
+                <button id="refresh-history-button">
+                    Refresh
+                </button>
+            </div>
+
+            <div id="history-list">
+                <p>No history yet.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
