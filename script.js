@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://fanny-126-calculator-backend.de.deplexo.com";
 
 const expressionInput = document.getElementById("expression");
 const calculateButton = document.getElementById("calculate-button");
