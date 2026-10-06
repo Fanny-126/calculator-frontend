@@ -1,4 +1,5 @@
-const API_BASE_URL = "https://fanny-126-calculator-backend.de.deplexo.com";
+const API_BASE_URL =
+    "https://fanny-126-calculator-backend.de.deplexo.com";
 
 const expressionInput = document.getElementById("expression");
 const calculateButton = document.getElementById("calculate-button");
@@ -8,8 +9,32 @@ const historyList = document.getElementById("history-list");
 const refreshHistoryButton = document.getElementById(
     "refresh-history-button"
 );
+const clearButton = document.getElementById("clear-button");
 
 
+// Add keypad input to the expression box.
+const keypadButtons = document.querySelectorAll(
+    ".keypad button[data-value]"
+);
+
+keypadButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        expressionInput.value += button.dataset.value;
+        expressionInput.focus();
+    });
+});
+
+
+// Clear the expression and messages.
+clearButton.addEventListener("click", () => {
+    expressionInput.value = "";
+    resultElement.textContent = "";
+    errorElement.textContent = "";
+    expressionInput.focus();
+});
+
+
+// Calculate the expression through the backend API.
 async function calculateExpression() {
     const expression = expressionInput.value.trim();
 
@@ -27,45 +52,47 @@ async function calculateExpression() {
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    expression: expression,
-                }),
+                    expression: expression
+                })
             }
         );
 
         const data = await response.json();
 
         if (!response.ok) {
-            throw new Error(data.detail || "Calculation failed.");
+            throw new Error(
+                data.detail || "Calculation failed."
+            );
         }
 
-        resultElement.textContent =
-            `Result: ${data.result}`;
+        resultElement.textContent = `Result: ${data.result}`;
 
         await loadHistory();
-
     } catch (error) {
         errorElement.textContent = error.message;
     }
 }
 
 
+// Load calculation history from the backend.
 async function loadHistory() {
     try {
         const response = await fetch(
             `${API_BASE_URL}/api/history`
         );
 
-        if (!response.ok) {
-            throw new Error("Failed to load history.");
-        }
-
         const data = await response.json();
 
-        renderHistory(data.history);
+        if (!response.ok) {
+            throw new Error(
+                data.detail || "Failed to load history."
+            );
+        }
 
+        renderHistory(data.history);
     } catch (error) {
         historyList.innerHTML =
             `<p>${error.message}</p>`;
@@ -73,8 +100,9 @@ async function loadHistory() {
 }
 
 
+// Display history records.
 function renderHistory(history) {
-    if (history.length === 0) {
+    if (!history || history.length === 0) {
         historyList.innerHTML = "<p>No history yet.</p>";
         return;
     }
@@ -93,19 +121,19 @@ function renderHistory(history) {
 
         const result = document.createElement("div");
         result.className = "history-result";
-        result.textContent = `= ${item.result}`;
+        result.textContent = `Result: ${item.result}`;
 
         information.appendChild(expression);
         information.appendChild(result);
 
         const deleteButton = document.createElement("button");
         deleteButton.className = "delete-button";
+        deleteButton.type = "button";
         deleteButton.textContent = "Delete";
 
-        deleteButton.addEventListener(
-            "click",
-            () => deleteHistory(item.id)
-        );
+        deleteButton.addEventListener("click", () => {
+            deleteHistory(item.id);
+        });
 
         historyItem.appendChild(information);
         historyItem.appendChild(deleteButton);
@@ -115,12 +143,13 @@ function renderHistory(history) {
 }
 
 
-async function deleteHistory(historyId) {
+// Delete a history record through the backend API.
+async function deleteHistory(id) {
     try {
         const response = await fetch(
-            `${API_BASE_URL}/api/history/${historyId}`,
+            `${API_BASE_URL}/api/history/${id}`,
             {
-                method: "DELETE",
+                method: "DELETE"
             }
         );
 
@@ -133,25 +162,27 @@ async function deleteHistory(historyId) {
         }
 
         await loadHistory();
-
     } catch (error) {
         errorElement.textContent = error.message;
     }
 }
 
 
+// Calculate when the Calculate button is clicked.
 calculateButton.addEventListener(
     "click",
     calculateExpression
 );
 
 
+// Refresh calculation history.
 refreshHistoryButton.addEventListener(
     "click",
     loadHistory
 );
 
 
+// Press Enter to calculate.
 expressionInput.addEventListener(
     "keydown",
     (event) => {
@@ -162,4 +193,5 @@ expressionInput.addEventListener(
 );
 
 
+// Load history when the page opens.
 loadHistory();

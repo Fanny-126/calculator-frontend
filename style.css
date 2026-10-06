@@ -4,26 +4,25 @@
 
 body {
     margin: 0;
-    min-height: 100vh;
+    padding: 30px;
     font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #1f2937;
+    background: #f4f4f4;
 }
 
 .calculator-container {
-    width: min(900px, 92%);
-    margin: 50px auto;
+    max-width: 1000px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 25px;
 }
 
 .calculator,
 .history {
     background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 h1,
@@ -31,65 +30,175 @@ h2 {
     margin-top: 0;
 }
 
+
+/* =========================
+   Expression Input
+   ========================= */
+
 #expression {
     width: 100%;
-    padding: 14px;
-    margin-bottom: 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 18px;
+    height: 60px;
+    padding: 12px;
+    font-size: 22px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 15px;
 }
 
-#calculate-button,
-#refresh-history-button,
-.delete-button {
-    border: none;
-    border-radius: 8px;
-    padding: 10px 16px;
-    cursor: pointer;
-    font-size: 14px;
+
+/* =========================
+   Calculator Keypad
+   ========================= */
+
+.keypad {
+    display: grid;
+
+    /* Four equal columns */
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+
+    width: 100%;
+
+    margin-bottom: 15px;
 }
+
+
+/* Every button is square */
+
+.keypad button {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    font-size: 24px;
+    font-weight: normal;
+
+    border: 1px solid #999;
+    border-radius: 6px;
+
+    background: #f7f7f7;
+
+    cursor: pointer;
+}
+
+
+/* Button hover */
+
+.keypad button:hover {
+    background: #eaeaea;
+}
+
+
+/* Button press */
+
+.keypad button:active {
+    transform: scale(0.97);
+}
+
+
+/* Clear button */
+
+.clear-button {
+    font-size: 20px !important;
+}
+
+
+/* =========================
+   Calculate Button
+   ========================= */
 
 #calculate-button {
     width: 100%;
-    background: #2563eb;
+
+    padding: 14px;
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    background: #333;
     color: white;
-    font-size: 16px;
 }
 
 #calculate-button:hover {
-    background: #1d4ed8;
+    background: #222;
 }
 
+
+/* =========================
+   Result
+   ========================= */
+
 .result {
-    margin-top: 16px;
+    margin-top: 15px;
+
     font-size: 20px;
     font-weight: bold;
 }
 
+
+/* =========================
+   Error
+   ========================= */
+
 .error {
-    margin-top: 12px;
-    color: #dc2626;
+    margin-top: 10px;
+
+    font-size: 16px;
 }
+
+
+/* =========================
+   History
+   ========================= */
 
 .history-header {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
+
+    margin-bottom: 15px;
 }
 
 #refresh-history-button {
-    background: #e5e7eb;
-    color: #374151;
+    padding: 8px 14px;
+
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    background: #eee;
 }
+
+#refresh-history-button:hover {
+    background: #ddd;
+}
+
+
+/* History item */
 
 .history-item {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
+
+    gap: 15px;
+
     padding: 12px 0;
-    border-bottom: 1px solid #e5e7eb;
+
+    border-bottom: 1px solid #eee;
 }
 
 .history-expression {
@@ -97,23 +206,48 @@ h2 {
 }
 
 .history-result {
-    color: #4b5563;
     margin-top: 4px;
 }
 
+
+/* Delete button */
+
 .delete-button {
-    background: #ef4444;
-    color: white;
-    flex-shrink: 0;
+    padding: 7px 12px;
+
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    background: #eee;
 }
 
 .delete-button:hover {
-    background: #dc2626;
+    background: #ddd;
 }
 
+
+/* =========================
+   Responsive Layout
+   ========================= */
+
 @media (max-width: 700px) {
+
+    body {
+        padding: 15px;
+    }
+
     .calculator-container {
         grid-template-columns: 1fr;
-        margin: 24px auto;
     }
+
+    .keypad {
+        gap: 8px;
+    }
+
+    .keypad button {
+        font-size: 20px;
+    }
+
 }
